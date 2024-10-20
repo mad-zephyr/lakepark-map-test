@@ -117,8 +117,7 @@ const MapboxExample = () => {
         data: {
           type: "Feature",
           properties: {
-            "model-uri":
-              "https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf",
+            "model-uri": "/public/house.glb",
           },
           geometry: {
             coordinates: [28.691668, 47.108263],
