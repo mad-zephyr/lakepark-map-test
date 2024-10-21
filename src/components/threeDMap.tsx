@@ -117,7 +117,7 @@ const MapboxExample = () => {
         data: {
           type: "Feature",
           properties: {
-            "model-uri": "/public/house.glb",
+            "model-uri": "https://tmpfiles.org/dl/14638176/house_2.glb",
           },
           geometry: {
             coordinates: [28.691668, 47.108263],

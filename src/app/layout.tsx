@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../assets/styles/globals.css";
+import Script from "next/script";
+import Head from "next/head";
 
 const geistSans = localFont({
   src: "../assets/fonts/GeistVF.woff",
@@ -25,6 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <head>
+        <link
+          href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css"
+          rel="stylesheet"
+        />
+      </head> */}
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

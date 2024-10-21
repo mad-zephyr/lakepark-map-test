@@ -4,9 +4,7 @@ import ThreeDMap from "@/components/threeDMap";
 export default function Home() {
   return (
     <div className={styles.page}>
-      <>
-        <ThreeDMap />
-      </>
+      <ThreeDMap />
     </div>
   );
 }
