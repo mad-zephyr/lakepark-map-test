@@ -28,21 +28,23 @@ import { Billboard, Text } from "@react-three/drei";
 
 // import { ModelGLTF } from "./_components/ModelGLTF";
 
-type THouse = {
-  name: string;
-  id: number;
-  long: number;
-  lat: number;
-  modelUrl: string;
-  modelExtension: "fbx";
-  pos: {
-    x: number;
-    y: number;
-    z: number;
-  };
-  rotation: number;
-  scale: number;
-};
+type THouse =
+  | {
+      name: string;
+      id: number;
+      long: number;
+      lat: number;
+      rotation: number;
+      scale: number;
+    } & Partial<{
+      modelUrl: string;
+      modelExtension: "fbx";
+      pos: {
+        x: number;
+        y: number;
+        z: number;
+      };
+    }>;
 
 const Page: FC = () => {
   const mapRef = useRef<MapRef | null>(null);
@@ -109,7 +111,7 @@ const Page: FC = () => {
     },
     {
       name: "Школа",
-      id: 243,
+      id: 245,
       long: 28.691403250498798,
       lat: 47.107990393822064,
       modelUrl: "/lowpoly_house.fbx",
@@ -124,7 +126,7 @@ const Page: FC = () => {
     },
     {
       name: "Wellnes House",
-      id: 431,
+      id: 436,
       long: 28.6909772243393,
       lat: 47.107643255826964,
       modelUrl: "/mansion-model.fbx",
@@ -137,14 +139,37 @@ const Page: FC = () => {
       rotation: 130,
       scale: 0.001,
     },
+    {
+      name: "Kayak Canoe school",
+      id: 437,
+      long: 28.807621165455608,
+      lat: 47.01568881536005,
+      modelUrl: "/mansion-model.fbx",
+      modelExtension: "fbx",
+      pos: {
+        x: 50,
+        y: 0,
+        z: 100,
+      },
+      rotation: 130,
+      scale: 0.001,
+    },
+    {
+      name: "Green Summer Theatre",
+      id: 437,
+      long: 28.819597932973213,
+      lat: 47.01669885816032,
+      rotation: 130,
+      scale: 0.001,
+    },
   ];
 
   const onSelectCity = useCallback(
     ({ longitude, latitude }: { longitude: number; latitude: number }) => {
       mapRef.current?.flyTo({
         center: [longitude, latitude],
-        duration: 2000,
-        zoom: 19,
+        duration: 3000,
+        zoom: 18,
       });
     },
     []
@@ -213,7 +238,7 @@ const Page: FC = () => {
                 rotation={[0, house.rotation * MathUtils.DEG2RAD, 0]}
                 scale={house.scale}
               >
-                <ModelFBX url={house.modelUrl} />
+                {house.modelUrl ? <ModelFBX url={house.modelUrl} /> : <></>}
               </object3D>
             );
           })}
