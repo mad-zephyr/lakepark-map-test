@@ -44,6 +44,11 @@ export default function Home() {
   const top = useTransform(scrollYProgress, [0, 0.85], ["30%", "0%"]);
   const top2 = useTransform(scrollYProgress, [0, 0.85], ["-30dvh", "0dvh"]);
   const opacity = useTransform(scrollYProgress, [0.85, 0.851], [0, 1]);
+  const display = useTransform(
+    scrollYProgress,
+    [0.85, 0.851],
+    ["none", "flex"]
+  );
   const opacity2 = useTransform(scrollYProgress, [0.85, 0.851], [1, 0]);
 
   const padding = useTransform(
@@ -59,7 +64,15 @@ export default function Home() {
 
   return (
     <div className={classes.page} ref={scope}>
-      <Header style={{ position: "fixed", opacity, padding, backdropFilter }} />
+      <Header
+        style={{
+          position: "fixed",
+          opacity,
+          padding,
+          backdropFilter,
+          display,
+        }}
+      />
       <motion.div style={{ opacity }}></motion.div>
       <section className={classes.hero} ref={container}>
         <motion.div
