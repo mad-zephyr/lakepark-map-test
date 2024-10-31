@@ -5,7 +5,7 @@ import classes from "./page.module.sass";
 import { useEffect, useRef, useState } from "react";
 
 import { motion } from "framer-motion";
-// import Image from "next/image";
+
 import { cubicBezier } from "framer-motion";
 
 import FullLogo from "@/assets/images/fullLogo.svg";
@@ -43,15 +43,24 @@ export default function Home() {
   const left = useTransform(scrollYProgress, [0, 0.85], ["-37.6dvw", "0dvw"]);
   const top = useTransform(scrollYProgress, [0, 0.85], ["30%", "0%"]);
   const top2 = useTransform(scrollYProgress, [0, 0.85], ["-30dvh", "0dvh"]);
-  const scrolled = useTransform(scrollYProgress, [0, 0.85], [false, true]);
+  const opacity = useTransform(scrollYProgress, [0.85, 0.851], [0, 1]);
+  const opacity2 = useTransform(scrollYProgress, [0.85, 0.851], [1, 0]);
 
-  scrolled.on("animationComplete", () => {
-    console.log("FINISHED");
-  });
+  const padding = useTransform(
+    scrollYProgress,
+    [0.86, 1],
+    ["48px 72px", "16px 72px"]
+  );
+  const backdropFilter = useTransform(
+    scrollYProgress,
+    [0.86, 1],
+    ["blur(0px)", "blur(8px)"]
+  );
 
   return (
     <div className={classes.page} ref={scope}>
-      <Header style={{ position: "fixed" }} />
+      <Header style={{ position: "fixed", opacity, padding, backdropFilter }} />
+      <motion.div style={{ opacity }}></motion.div>
       <section className={classes.hero} ref={container}>
         <motion.div
           id="HeroOpener"
@@ -60,7 +69,7 @@ export default function Home() {
           transition={{ easings: ["easeIn", "easeOut"] }}
         >
           <motion.div style={{ left, top: top2 }} className={classes.container}>
-            <Header />
+            <Header style={{ opacity: opacity2 }} />
             <div className={classes.content}>
               <FullLogo />
               <h1>{TITLE}</h1>

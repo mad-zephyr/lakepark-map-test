@@ -1,12 +1,13 @@
 import { FC, useState } from "react";
-import { DivProps } from "react-html-props";
-import { motion } from "framer-motion";
+
+import { motion, MotionStyle } from "framer-motion";
 import classes from "./classes.module.sass";
+
 import cn from "classnames";
 
 import Logo from "@/assets/images/logo.svg";
 
-type THeader = {} & DivProps;
+type THeader = { style?: MotionStyle };
 
 type TNavItem = {
   title: string;
@@ -39,7 +40,7 @@ const NAV_ITEM = [
   "Контакты",
 ];
 
-export const Header: FC<THeader> = ({ ...props }) => {
+export const Header: FC<THeader> = ({ style }) => {
   const [activeItem, setActiveItem] = useState(0);
 
   const handleSetActive = (itemTitle: string) => {
@@ -47,7 +48,7 @@ export const Header: FC<THeader> = ({ ...props }) => {
     setActiveItem(activeIndex);
   };
   return (
-    <header className={classes["header"]} {...props}>
+    <motion.header className={classes["header"]} style={style}>
       <Logo />
       Ro
       <nav className={classes["nav"]}>
@@ -62,6 +63,6 @@ export const Header: FC<THeader> = ({ ...props }) => {
           ))}
         </ul>
       </nav>
-    </header>
+    </motion.header>
   );
 };
