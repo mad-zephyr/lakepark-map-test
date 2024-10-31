@@ -1,23 +1,17 @@
+import withVideos from "next-videos";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false };
-
-    // config.module.rules.push({
-    //   test: /\.fbx$/,
-    //   use: [
-    //     {
-    //       loader: "file-loader",
-    //       options: {
-    //         name: "[path][name].[ext]",
-    //       },
-    //     },
-    //   ],
-    // });
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
 
     return config;
   },
 };
 
-export default nextConfig;
+export default withVideos(nextConfig);

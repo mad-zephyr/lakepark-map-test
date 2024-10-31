@@ -1,0 +1,67 @@
+
+.page
+    font-family: var(--font-accent)
+    font-weight: 540
+    // padding-top: 50vh
+    padding-bottom: 100vh
+
+.hero
+    height: 300vh
+    width: 100dvw
+
+.item
+    position: sticky
+    overflow: hidden
+    margin: 0 auto
+    opacity: 0
+    transform: translateY(100dvh)
+    clip-path: inset(100% 100% round 40px)
+
+.container
+    position: relative
+    width: 100dvw
+    height: 100dvh
+    left: 0
+    transform-origin: center
+
+    &::after,  &::before
+        content: ""
+        position: absolute
+        top: 0
+        width: 100dvw
+        height: 100dvh
+        z-index: 2
+        pointer-events: none
+
+    &::before
+        background: #00000066
+
+    &::after
+        background: linear-gradient(0deg, #14232E 0%, rgba(20, 35, 46, 0) 30%)
+
+    img
+        object-fit: cover
+        z-index: 0
+
+.content
+    position: absolute
+    z-index: 3
+    width: 70%
+    top: 42dvh
+    left: 50%
+    transform: translateX(-50%)
+    display: flex
+    flex-direction: column
+    align-items: center
+
+    svg
+        margin-bottom: 60px
+
+    h1
+        font-family: var(--font-accent)
+        font-weight: 200
+        font-size: 55px
+        line-height: 127%
+        text-align: center
+        color: #ffebce
+        z-index: 3
