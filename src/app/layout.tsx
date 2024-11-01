@@ -14,7 +14,7 @@ export default function RootLayout({ children }: TRootLayout) {
   const mainClass = cn(SanFranciscoPro.variable, UnboundedFont.variable)
 
   return (
-    <html lang="en" style={{ overflow: 'hidden' }}>
+    <html lang="en">
       <body className={mainClass}>
         <ContextWrapper>
           <IntroWrapper>{children}</IntroWrapper>
