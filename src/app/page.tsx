@@ -87,7 +87,7 @@ export default function Home() {
               <FullLogo />
               <h1>{TITLE}</h1>
             </div>
-            <video autoPlay loop playsInline muted>
+            <video className={classes["cover"]} autoPlay loop playsInline muted>
               <source src={VideoBg} type={`video/webm`} />
               <Image src={BgPicture} alt={"fitness cover"} fill />
             </video>
