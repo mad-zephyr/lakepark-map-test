@@ -16,7 +16,7 @@ import BgPicture from "@/assets/images/heroBg.png";
 import { Header } from "@/modules";
 import Image from "next/image";
 
-const TITLE = "Lake Park - самое премиальное место для жизни в Молдове";
+const TITLE = "Lake Park - самое премиальное место \n для жизни в Молдове";
 
 export default function Home() {
   const container = useRef<HTMLDivElement | null>(null);
@@ -38,11 +38,11 @@ export default function Home() {
 
   const scope = useMenuAnimation(isOpen);
 
-  const width = useTransform(scrollYProgress, [0, 0.85], ["25dvw", "100dvw"]);
-  const height = useTransform(scrollYProgress, [0, 0.85], ["45dvh", "100dvh"]);
-  const left = useTransform(scrollYProgress, [0, 0.85], ["-37.6dvw", "0dvw"]);
+  const width = useTransform(scrollYProgress, [0, 0.85], ["20dvw", "100dvw"]);
+  const height = useTransform(scrollYProgress, [0, 0.85], ["45vh", "100vh"]);
+  const left = useTransform(scrollYProgress, [0, 0.85], ["-39.8dvw", "0dvw"]);
   const top = useTransform(scrollYProgress, [0, 0.85], ["30%", "0%"]);
-  const top2 = useTransform(scrollYProgress, [0, 0.85], ["-30dvh", "0dvh"]);
+  const top2 = useTransform(scrollYProgress, [0, 0.85], ["-30vh", "0vh"]);
   const opacity = useTransform(scrollYProgress, [0.85, 0.851], [0, 1]);
   const display = useTransform(
     scrollYProgress,
