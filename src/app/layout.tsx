@@ -1,22 +1,25 @@
-import "../assets/styles/globals.css";
+import '../assets/styles/globals.css'
 
-import { SanFranciscoPro, UnboundedFont } from "@/assets/fonts/fontConfig";
-import { ContextWrapper } from "@/context/context";
+import cn from 'classnames'
 
-import cn from "classnames";
+import { SanFranciscoPro, UnboundedFont } from '@/assets/fonts/fontConfig'
+import { ContextWrapper } from '@/context/context'
+import { IntroWrapper } from '@/modules/Intro/intro'
 
 type TRootLayout = Readonly<{
-  children: React.ReactNode;
-}>;
+  children: React.ReactNode
+}>
 
 export default function RootLayout({ children }: TRootLayout) {
-  const mainClass = cn(SanFranciscoPro.variable, UnboundedFont.variable);
+  const mainClass = cn(SanFranciscoPro.variable, UnboundedFont.variable)
 
   return (
-    <html lang="en">
+    <html lang="en" style={{ overflow: 'hidden' }}>
       <body className={mainClass}>
-        <ContextWrapper>{children}</ContextWrapper>
+        <ContextWrapper>
+          <IntroWrapper>{children}</IntroWrapper>
+        </ContextWrapper>
       </body>
     </html>
-  );
+  )
 }

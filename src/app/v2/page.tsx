@@ -1,64 +1,59 @@
-"use client";
+'use client'
 // https://tmpfiles.org/dl/14638176/house_2.glb
 // "https://docs.mapbox.com/mapbox-gl-js/assets/tower.glb"
-
 import Map, {
   FullscreenControl,
   GeolocateControl,
+  MapRef,
   NavigationControl,
   ScaleControl,
-  MapRef,
-} from "react-map-gl";
-import { FC, Suspense, useCallback, useEffect, useRef, useState } from "react";
+} from 'react-map-gl'
+import { FC, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { MathUtils } from 'three'
+import { Billboard, Text } from '@react-three/drei'
+import { Canvas, coordsToVector3 } from 'react-three-map'
 
-import classes from "./style.module.sass";
+import 'mapbox-gl/dist/mapbox-gl.css'
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN || ''
 
-const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN || "";
-
-import "mapbox-gl/dist/mapbox-gl.css";
-import { Canvas, coordsToVector3 } from "react-three-map";
-import { ModelFBX } from "./_components/ModelFBX";
-
-// import LowPolyHouse from "@/assets/models/lowpoly_house.fbx";
-import { MathUtils } from "three";
 // import { useControls } from "leva";
-import { Lights } from "./_components/Lights";
-
-import { Billboard, Text } from "@react-three/drei";
+// import LowPolyHouse from "@/assets/models/lowpoly_house.fbx";
+import { Lights } from './_components/Lights'
+import { ModelFBX } from './_components/ModelFBX'
+import classes from './style.module.sass'
 
 // import { ModelGLTF } from "./_components/ModelGLTF";
 
-type THouse =
-  | {
-      name: string;
-      id: number;
-      long: number;
-      lat: number;
-      rotation: number;
-      scale: number;
-    } & Partial<{
-      modelUrl: string;
-      modelExtension: "fbx";
-      pos: {
-        x: number;
-        y: number;
-        z: number;
-      };
-    }>;
+type THouse = {
+  name: string
+  id: number
+  long: number
+  lat: number
+  rotation: number
+  scale: number
+} & Partial<{
+  modelUrl: string
+  modelExtension: 'fbx'
+  pos: {
+    x: number
+    y: number
+    z: number
+  }
+}>
 
 const Page: FC = () => {
-  const mapRef = useRef<MapRef | null>(null);
+  const mapRef = useRef<MapRef | null>(null)
 
   const [position] = useState({
     longitude: 28.691597768997394,
     latitude: 47.10890434472199,
-  });
+  })
 
-  const [activeHouse, setActiveHouse] = useState<THouse | null>(null);
+  const [activeHouse, setActiveHouse] = useState<THouse | null>(null)
 
   const handleSetActiveHouse = (house: THouse) => {
-    setActiveHouse(house);
-  };
+    setActiveHouse(house)
+  }
 
   // const { modelPosition, rotation, scale } = useControls({
   //   modelPosition: {
@@ -80,12 +75,12 @@ const Page: FC = () => {
 
   const houses: THouse[] = [
     {
-      name: "Ресторан",
+      name: 'Ресторан',
       id: 243,
       long: 28.69154325902519,
       lat: 47.108500886752864,
-      modelUrl: "/lowpoly_house.fbx",
-      modelExtension: "fbx",
+      modelUrl: '/lowpoly_house.fbx',
+      modelExtension: 'fbx',
       pos: {
         x: 0,
         y: 0,
@@ -95,12 +90,12 @@ const Page: FC = () => {
       scale: 0.015,
     },
     {
-      name: "Здание 2",
+      name: 'Здание 2',
       id: 431,
       long: 28.691943283605802,
       lat: 47.10826401864167,
-      modelUrl: "/mansion-model.fbx",
-      modelExtension: "fbx",
+      modelUrl: '/mansion-model.fbx',
+      modelExtension: 'fbx',
       pos: {
         x: 20,
         y: 0,
@@ -110,12 +105,12 @@ const Page: FC = () => {
       scale: 0.001,
     },
     {
-      name: "Школа",
+      name: 'Школа',
       id: 245,
       long: 28.691403250498798,
       lat: 47.107990393822064,
-      modelUrl: "/lowpoly_house.fbx",
-      modelExtension: "fbx",
+      modelUrl: '/lowpoly_house.fbx',
+      modelExtension: 'fbx',
       pos: {
         x: 0,
         y: 0,
@@ -125,12 +120,12 @@ const Page: FC = () => {
       scale: 0.01,
     },
     {
-      name: "Wellnes House",
+      name: 'Wellnes House',
       id: 436,
       long: 28.6909772243393,
       lat: 47.107643255826964,
-      modelUrl: "/mansion-model.fbx",
-      modelExtension: "fbx",
+      modelUrl: '/mansion-model.fbx',
+      modelExtension: 'fbx',
       pos: {
         x: 50,
         y: 0,
@@ -140,12 +135,12 @@ const Page: FC = () => {
       scale: 0.001,
     },
     {
-      name: "Kayak Canoe school",
+      name: 'Kayak Canoe school',
       id: 437,
       long: 28.807621165455608,
       lat: 47.01568881536005,
-      modelUrl: "/mansion-model.fbx",
-      modelExtension: "fbx",
+      modelUrl: '/mansion-model.fbx',
+      modelExtension: 'fbx',
       pos: {
         x: 50,
         y: 0,
@@ -155,14 +150,14 @@ const Page: FC = () => {
       scale: 0.001,
     },
     {
-      name: "Green Summer Theatre",
+      name: 'Green Summer Theatre',
       id: 437,
       long: 28.819597932973213,
       lat: 47.01669885816032,
       rotation: 130,
       scale: 0.001,
     },
-  ];
+  ]
 
   const onSelectCity = useCallback(
     ({ longitude, latitude }: { longitude: number; latitude: number }) => {
@@ -170,19 +165,19 @@ const Page: FC = () => {
         center: [longitude, latitude],
         duration: 3000,
         zoom: 18,
-      });
+      })
     },
     []
-  );
+  )
 
   useEffect(() => {
     if (activeHouse) {
       onSelectCity({
         latitude: activeHouse.lat,
         longitude: activeHouse.long,
-      });
+      })
     }
-  }, [activeHouse, onSelectCity]);
+  }, [activeHouse, onSelectCity])
 
   const getCoordinates = (
     latitude: number,
@@ -196,8 +191,8 @@ const Page: FC = () => {
         altitude,
       },
       { ...position, altitude: 0 }
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -212,7 +207,7 @@ const Page: FC = () => {
           pitch: 35,
         }}
         mapStyle="mapbox://styles/madzephyr/cm2kweo56009x01qr5gfx3sli"
-        style={{ width: "100vw", height: "100vh" }}
+        style={{ width: '100vw', height: '100vh' }}
       >
         <FullscreenControl position="top-left" />
         <GeolocateControl position="top-left" showAccuracyCircle />
@@ -228,7 +223,7 @@ const Page: FC = () => {
           <Lights />
 
           {houses.map((house, i) => {
-            const vectorCoords = getCoordinates(house.lat, house.long);
+            const vectorCoords = getCoordinates(house.lat, house.long)
 
             return (
               <object3D
@@ -240,7 +235,7 @@ const Page: FC = () => {
               >
                 {house.modelUrl ? <ModelFBX url={house.modelUrl} /> : <></>}
               </object3D>
-            );
+            )
           })}
 
           <Suspense>
@@ -259,16 +254,16 @@ const Page: FC = () => {
 
       <ControlPanel buildings={houses} onClick={handleSetActiveHouse} />
     </>
-  );
-};
+  )
+}
 
 type TControlPanel = {
-  onClick: (house: THouse) => void;
-  buildings: THouse[];
-};
+  onClick: (house: THouse) => void
+  buildings: THouse[]
+}
 
 function ControlPanel(props: TControlPanel) {
-  const { buildings, onClick } = props;
+  const { buildings, onClick } = props
 
   return (
     <div className={classes.control}>
@@ -279,10 +274,10 @@ function ControlPanel(props: TControlPanel) {
           <p key={i} onClick={() => onClick(building)}>
             {building.name}
           </p>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

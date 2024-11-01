@@ -1,5 +1,5 @@
 export const Lights = () => {
-  const camSize = 150;
+  const camSize = 150
   return (
     <>
       <ambientLight intensity={0.3 * Math.PI} />
@@ -17,5 +17,5 @@ export const Lights = () => {
       <pointLight position={[-10, 0, -20]} intensity={Math.PI} />
       <pointLight position={[0, -10, 0]} intensity={Math.PI} />
     </>
-  );
-};
+  )
+}

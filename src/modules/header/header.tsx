@@ -1,57 +1,56 @@
-import { FC, useState } from "react";
+import { FC, useState } from 'react'
+import { motion, MotionStyle } from 'framer-motion'
+import cn from 'classnames'
 
-import { motion, MotionStyle } from "framer-motion";
-import classes from "./classes.module.sass";
+import Logo from '@/assets/images/logo.svg'
 
-import cn from "classnames";
+import classes from './classes.module.sass'
 
-import Logo from "@/assets/images/logo.svg";
-
-type THeader = { style?: MotionStyle };
+type THeader = { style?: MotionStyle }
 
 type TNavItem = {
-  title: string;
-  isActive: boolean;
-  onClick: (item: string) => void;
-};
+  title: string
+  isActive: boolean
+  onClick: (item: string) => void
+}
 
 const NavItem: FC<TNavItem> = ({ title, isActive, onClick }) => {
   return (
     <>
       <li
-        className={cn({ [classes["active"]]: isActive })}
+        className={cn({ [classes['active']]: isActive })}
         onClick={() => onClick(title)}
       >
         {title}
         {isActive ? (
-          <motion.div className={classes["active_bg"]} layoutId="underline" />
+          <motion.div className={classes['active_bg']} layoutId="underline" />
         ) : null}
       </li>
     </>
-  );
-};
+  )
+}
 
 const NAV_ITEM = [
-  "Lake Park",
-  "Расположение",
-  "Ваш будущий дом",
-  "Инфраструктура",
-  "Рестораны",
-  "Контакты",
-];
+  'Lake Park',
+  'Расположение',
+  'Ваш будущий дом',
+  'Инфраструктура',
+  'Рестораны',
+  'Контакты',
+]
 
 export const Header: FC<THeader> = ({ style }) => {
-  const [activeItem, setActiveItem] = useState(0);
+  const [activeItem, setActiveItem] = useState(0)
 
   const handleSetActive = (itemTitle: string) => {
-    const activeIndex = NAV_ITEM.findIndex((item) => itemTitle === item);
-    setActiveItem(activeIndex);
-  };
+    const activeIndex = NAV_ITEM.findIndex((item) => itemTitle === item)
+    setActiveItem(activeIndex)
+  }
   return (
-    <motion.header className={classes["header"]} style={style}>
+    <motion.header className={classes['header']} style={style}>
       <Logo />
       Ro
-      <nav className={classes["nav"]}>
+      <nav className={classes['nav']}>
         <ul>
           {NAV_ITEM.map((item, i) => (
             <NavItem
@@ -64,5 +63,5 @@ export const Header: FC<THeader> = ({ style }) => {
         </ul>
       </nav>
     </motion.header>
-  );
-};
+  )
+}
