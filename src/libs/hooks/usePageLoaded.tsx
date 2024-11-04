@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 export const usePageLoaded = () => {
   const [isLoaded, setIsLoaded] = useState(false)
 
+  window?.scrollTo({ top: 0 })
+
   useEffect(() => {
     // callback function to call when event triggers
     const onPageLoad = () => {
@@ -14,6 +16,7 @@ export const usePageLoaded = () => {
       onPageLoad()
     } else {
       window.addEventListener('load', onPageLoad, false)
+
       // Remove the event listener when component unmounts
       return () => window.removeEventListener('load', onPageLoad)
     }

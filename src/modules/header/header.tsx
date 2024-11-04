@@ -10,8 +10,10 @@ import { motion } from 'framer-motion'
 
 import PhoneIcon from '@/assets/images/phone.svg'
 import Logo from '@/assets/images/logo.svg'
+import Phone from '@/assets/images/phone.svg'
 
 import classes from './classes.module.sass'
+import { NavItem } from './components/headerNavItem/headerNavItem'
 
 type THeader = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 

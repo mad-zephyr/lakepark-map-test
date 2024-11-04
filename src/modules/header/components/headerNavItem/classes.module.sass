@@ -1,0 +1,33 @@
+.item
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 100%
+
+    border-radius: 36px
+    padding: 12px 20px
+    white-space: nowrap
+
+    color: white
+    cursor: pointer
+    border: 1px solid rgba(#fff, 0)
+    pointer-events: auto
+    transition: 1s all cubic-bezier(0.25, 1, 0.5, 1)
+
+    &:hover
+        border: 1px solid rgba(#fff, 0.2)
+
+.active
+    color: black
+
+.active_bg
+    position: absolute
+    left: 0
+    top: 0
+    background: white
+
+    width: 100%
+    height: 100%
+    border-radius: 36px
+    z-index: -1
