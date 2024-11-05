@@ -46,6 +46,12 @@ export const useAnimateHeroAndHeader = (container: RefObject<HTMLElement>) => {
     ['blur(0px)', 'blur(8px)']
   )
 
+  const showInternalHeader = useTransform(
+    scrollYProgress,
+    [0.85, 0.8565],
+    [true, false]
+  )
+
   return {
     containerRef: container,
     heroWrapperWidth: width,
@@ -59,5 +65,6 @@ export const useAnimateHeroAndHeader = (container: RefObject<HTMLElement>) => {
 
     internalHeaderDisplay,
     externalHeaderDisplay,
+    showInternalHeader
   }
 }
