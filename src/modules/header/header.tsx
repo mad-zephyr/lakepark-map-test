@@ -1,12 +1,19 @@
-import { FC, useState } from 'react'
-import { MotionStyle } from 'framer-motion'
+import {
+  DetailedHTMLProps,
+  FC,
+  forwardRef,
+  HTMLAttributes,
+  useState,
+} from 'react'
 import cn from 'classnames'
+import { motion } from 'framer-motion'
 
+import PhoneIcon from '@/assets/images/phone.svg'
 import Logo from '@/assets/images/logo.svg'
 
 import classes from './classes.module.sass'
 
-type THeader = { style?: MotionStyle }
+type THeader = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 
 type TNavItem = {
   title: string
@@ -21,9 +28,9 @@ const NavItem: FC<TNavItem> = ({ title, isActive, onClick }) => {
       onClick={() => onClick(title)}
     >
       {title}
-      {/* {isActive ? (
+      {isActive ? (
         <motion.div className={classes['active_bg']} layoutId="underline" />
-      ) : null} */}
+      ) : null}
     </div>
   )
 }
@@ -37,32 +44,37 @@ const NAV_ITEM = [
   'Контакты',
 ]
 
-export const Header: FC<THeader> = () => {
-  const [activeItem, setActiveItem] = useState(0)
+export const Header: FC<THeader> = forwardRef<HTMLElement, THeader>(
+  ({ className, ...props }, ref) => {
+    const [activeItem, setActiveItem] = useState(0)
 
-  const handleSetActive = (itemTitle: string) => {
-    const activeIndex = NAV_ITEM.findIndex((item) => itemTitle === item)
-    setActiveItem(activeIndex)
+    const handleSetActive = (itemTitle: string) => {
+      const activeIndex = NAV_ITEM.findIndex((item) => itemTitle === item)
+      setActiveItem(activeIndex)
+    }
+
+    return (
+      <header ref={ref} className={cn(classes['header'], className)} {...props}>
+        <div className={classes['left']}>
+          <Logo />
+          Ro
+        </div>
+
+        <div className={classes.center} style={{ boxSizing: 'border-box' }}>
+          {NAV_ITEM.map((item, i) => (
+            <NavItem
+              key={i}
+              isActive={activeItem === i}
+              title={item}
+              onClick={handleSetActive}
+            />
+          ))}
+        </div>
+
+        <div className={classes['right']}>{<PhoneIcon />}Отдел продаж</div>
+      </header>
+    )
   }
-  return (
-    <header className={classes['header']}>
-      <div className={classes['left']}>
-        <Logo />
-        Ro
-      </div>
+)
 
-      <div className={classes.center} style={{ boxSizing: 'border-box' }}>
-        {NAV_ITEM.map((item, i) => (
-          <NavItem
-            key={i}
-            isActive={activeItem === i}
-            title={item}
-            onClick={handleSetActive}
-          />
-        ))}
-      </div>
-
-      <div className={classes['right']}>Phone</div>
-    </header>
-  )
-}
+Header.displayName = 'Header'

@@ -11,7 +11,7 @@ import VideoBg from '@/assets/videos/lakepark_webm.webm'
 import FullLogo from '@/assets/images/fullLogo.svg'
 import { usePageLoaded } from '@/libs/hooks/usePageLoaded'
 import BgPicture from '@/assets/images/heroBg.png'
-
+import Scroll from '@/assets/images/scroll.svg'
 const TITLE = 'Lake Park - самое премиальное место \n для жизни в Молдове'
 
 import classes from './styles.module.sass'
@@ -25,36 +25,53 @@ type TClipPath = {
 
 const ClipPath: FC<TClipPath> = () => {
   const rectRef = useRef<SVGRectElement | null>(null)
+  const lenis = useLenis()
 
   const { contextSafe } = useGSAP({
     scope: rectRef,
+    revertOnUpdate: false,
   })
 
-  const updateYPosition = () => {
+  const updatePosition = () => {
     if (!!rectRef.current) {
       const rectHeight = rectRef.current.getBBox().height
 
-      return window.scrollY + (window.innerHeight - rectHeight) / 2
+      const y = window.scrollY + (window.innerHeight - rectHeight) / 2
+
+      return { y }
     }
+    return { y: 0 }
   }
 
   const animateMask = contextSafe(() => {
     const tl = gsap.timeline({
-      defaults: { ease: 'power4.inOut' },
+      defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: rectRef.current,
         start: 'clamp(bottom bottom)',
-        end: 'clamp(bottom top)',
+        end: 'clamp(+=650vh +=0vh)',
         pin: '#heroMask',
         pinSpacing: false,
         markers: true,
         scrub: true,
-        // snap: 1,
         onUpdate: () => {
-          const y = updateYPosition()
-
+          const { y } = updatePosition()
+          console.log('onUpdate: ')
           gsap.set(rectRef.current, { y })
         },
+
+        onLeave: () => {
+          const scrollHash = document.getElementById('HeroSection')
+
+          console.log('onLeave: ')
+          console.log('scrollHash: ', scrollHash)
+          gsap.set(scrollHash, { height: '100vh', clipPath: 'unset' })
+          gsap.set(rectRef.current, { display: 'none' })
+
+          // setRevealFinished(true)
+          lenis?.scrollTo(0, { immediate: true })
+        },
+        once: true,
       },
     })
 
@@ -64,11 +81,10 @@ const ClipPath: FC<TClipPath> = () => {
         x: window.innerWidth / 2 - 120,
         y: window.innerHeight / 2 - 220,
         width: '240',
-        height: '440',
+        height: '400',
       },
       {
         x: 0,
-        y: 0,
         rx: 0,
         ry: 0,
         width: '100vw',
@@ -89,8 +105,8 @@ const ClipPath: FC<TClipPath> = () => {
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '200vh',
         pointerEvents: 'none',
       }}
     >
@@ -110,19 +126,19 @@ export const HeroMain = () => {
 
   return (
     <>
-      <section
-        id={'HeroSection'}
-        ref={containerRef}
-        style={{ clipPath: 'url(#pillClip)' }}
-        className={classes.hero}
-      >
+      <ClipPath />
+      <section id={'HeroSection'} ref={containerRef} className={classes.hero}>
         <div id="hero" className={classes.wrapper}>
+          <Header />
           <div className={classes.container}>
-            <Header />
             <div className={classes.content}>
               <FullLogo />
               <h1>{TITLE}</h1>
+              <Scroll style={{ marginBottom: '12px' }} />
+              <div className={classes.vertical} />
             </div>
+            <div className={classes.gradient} />
+
             <video className={classes['cover']} autoPlay loop playsInline muted>
               <source src={VideoBg} type={`video/webm`} />
               <Image src={BgPicture} alt={'fitness cover'} fill />
@@ -130,7 +146,6 @@ export const HeroMain = () => {
           </div>
         </div>
       </section>
-      <ClipPath />
     </>
   )
 }
