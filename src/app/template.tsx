@@ -14,13 +14,13 @@ export default function Template({ children }: { children: ReactNode }) {
 
   const animateHeader = contextSafe(() => {
     const tl = gsap.timeline({
-      defaults: { ease: 'power2.inOut' },
+      defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: document.documentElement,
         id: `externalHeader`,
-        start: window.innerHeight,
-        end: window.innerHeight + 280,
-        markers: true,
+        start: window.innerHeight / 3,
+        end: 100,
+        // markers: true,
         scrub: 1,
       },
     })
@@ -29,17 +29,30 @@ export default function Template({ children }: { children: ReactNode }) {
       headerRef.current,
       {
         top: -200,
+        opacity: 0,
+        // padding: '48px 72px',
+        backdropFilter: 'blur(6px)',
       },
       {
-        position: 'fixed',
-        backdropFilter: 'blur(6px)',
         padding: '48px 72px',
+        backdropFilter: 'blur(6px)',
         top: 0,
-        duration: 2,
+        opacity: 1,
+        duration: 1,
       }
     ).to(headerRef.current, {
+      scrollTrigger: {
+        trigger: document.documentElement,
+        id: `externalHeader-secondStep`,
+        start: window.innerHeight / 2,
+        end: 100,
+        // markers: true,
+        scrub: 1,
+      },
+
       padding: '12px 72px',
-      ease: 'power4.inOut',
+      // backdropFilter: 'blur(6px)',
+      background: '#00000045',
       duration: 1,
     })
   })

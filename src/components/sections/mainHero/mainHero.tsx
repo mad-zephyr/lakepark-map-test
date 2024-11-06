@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { FC, useEffect, useLayoutEffect, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 
@@ -25,78 +25,77 @@ type TClipPath = {
 
 const ClipPath: FC<TClipPath> = () => {
   const rectRef = useRef<SVGRectElement | null>(null)
-  const lenis = useLenis()
+  // const lenis = useLenis()
 
-  const { contextSafe } = useGSAP({
-    scope: rectRef,
-    revertOnUpdate: false,
-  })
+  // const { contextSafe } = useGSAP({
+  //   scope: rectRef,
+  //   revertOnUpdate: false,
+  // })
 
-  const updatePosition = () => {
-    if (!!rectRef.current) {
-      const rectHeight = rectRef.current.getBBox().height
+  // const updatePosition = () => {
+  //   if (!!rectRef.current) {
+  //     const rectHeight = rectRef.current.getBBox().height
 
-      const y = window.scrollY + (window.innerHeight - rectHeight) / 2
+  //     const y = window.scrollY + (window.innerHeight - rectHeight) / 2
 
-      return { y }
-    }
-    return { y: 0 }
-  }
+  //     return { y }
+  //   }
+  //   return { y: 0 }
+  // }
 
-  const animateMask = contextSafe(() => {
-    const tl = gsap.timeline({
-      defaults: { ease: 'none' },
-      scrollTrigger: {
-        trigger: rectRef.current,
-        start: 'clamp(bottom bottom)',
-        end: 'clamp(+=650vh +=0vh)',
-        pin: '#heroMask',
-        pinSpacing: false,
-        markers: true,
-        scrub: true,
-        onUpdate: () => {
-          const { y } = updatePosition()
-          console.log('onUpdate: ')
-          gsap.set(rectRef.current, { y })
-        },
+  // const animateMask = contextSafe(() => {
+  //   const tl = gsap.timeline({
+  //     defaults: { ease: 'none' },
+  //     scrollTrigger: {
+  //       trigger: rectRef.current,
+  //       start: 'clamp(bottom bottom)',
+  //       end: 'clamp(+=650vh +=0vh)',
+  //       pin: '#heroMask',
+  //       pinSpacing: false,
+  //       markers: true,
+  //       scrub: true,
+  //       onUpdate: () => {
+  //         const { y } = updatePosition()
+  //         gsap.set(rectRef.current, { y })
+  //       },
 
-        onLeave: () => {
-          const scrollHash = document.getElementById('HeroSection')
+  //       onLeave: () => {
+  //         const scrollHash = document.getElementById('HeroSection')
 
-          console.log('onLeave: ')
-          console.log('scrollHash: ', scrollHash)
-          gsap.set(scrollHash, { height: '100vh', clipPath: 'unset' })
-          gsap.set(rectRef.current, { display: 'none' })
+  //         console.log('onLeave: ')
+  //         console.log('scrollHash: ', scrollHash)
+  //         gsap.set(scrollHash, { height: '100vh', clipPath: 'unset' })
+  //         gsap.set(rectRef.current, { display: 'none' })
 
-          // setRevealFinished(true)
-          lenis?.scrollTo(0, { immediate: true })
-        },
-        once: true,
-      },
-    })
+  //         // setRevealFinished(true)
+  //         lenis?.scrollTo(0, { immediate: true })
+  //       },
+  //       once: true,
+  //     },
+  //   })
 
-    tl.fromTo(
-      rectRef.current,
-      {
-        x: window.innerWidth / 2 - 120,
-        y: window.innerHeight / 2 - 220,
-        width: '240',
-        height: '400',
-      },
-      {
-        x: 0,
-        rx: 0,
-        ry: 0,
-        width: '100vw',
-        height: '100vh',
-        duration: 2,
-      }
-    )
-  })
+  //   tl.fromTo(
+  //     rectRef.current,
+  //     {
+  //       x: window.innerWidth / 2 - 120,
+  //       y: window.innerHeight / 2 - 220,
+  //       width: '240',
+  //       height: '400',
+  //     },
+  //     {
+  //       x: 0,
+  //       rx: 0,
+  //       ry: 0,
+  //       width: '100vw',
+  //       height: '100vh',
+  //       duration: 2,
+  //     }
+  //   )
+  // })
 
-  useLayoutEffect(() => {
-    animateMask()
-  }, [animateMask])
+  // useLayoutEffect(() => {
+  //   animateMask()
+  // }, [animateMask])
 
   return (
     <svg
@@ -129,7 +128,7 @@ export const HeroMain = () => {
       <ClipPath />
       <section id={'HeroSection'} ref={containerRef} className={classes.hero}>
         <div id="hero" className={classes.wrapper}>
-          <Header />
+          <Header style={{ position: 'absolute' }} />
           <div className={classes.container}>
             <div className={classes.content}>
               <FullLogo />
@@ -158,32 +157,76 @@ function useMainHeroAnimation(isOpen: boolean) {
   })
 
   const animateIn = contextSafe(() => {
-    const tl = gsap.timeline()
+    lenis?.stop()
+
+    const tl = gsap
+      .timeline({
+        defaults: { ease: 'cubic-bezier(0.25, 1, 0.5, 1)', duration: 1 },
+      })
+      .add('start', 1)
+      .add('end', 2)
+
+    tl.to(['#HeroSection h1', '#HeroSection header'], { opacity: 0 })
 
     tl.fromTo(
-      ['#hero'],
+      '#pillClip rect',
       {
-        opacity: 0,
-        translateY: '100vh',
+        x: window.innerWidth / 2 - 220,
+        y: '100vh',
+        width: 220,
+        height: 220,
       },
       {
-        duration: 1,
-        ease: 'cubic-bezier(0.25, 1, 0.5, 1)',
-        opacity: 1,
-        translateY: '40vh',
-      }
-    ).to('#hero', {
-      delay: 0,
-      duration: 1,
-      ease: 'cubic-bezier(0.76, 0, 0.24, 1)',
-      opacity: 1,
-      translateY: '0vh',
+        y: '20vh',
+        x: window.innerWidth / 2 - 220,
+        width: 440,
+        height: 440,
+      },
+      'start'
+    )
 
-      onStart: () => {},
-      onComplete: () => {
-        lenis?.start()
+    tl.to(
+      '#pillClip rect',
+      {
+        y: 0,
+        x: 0,
+        rx: 0,
+        ry: 0,
+        width: '100vw',
+        height: '100vh',
       },
-    })
+      'end'
+    )
+
+    tl.fromTo(
+      '#HeroSection',
+      {
+        top: '100vh',
+      },
+      {
+        top: '40vh',
+      },
+      'start'
+    )
+
+    tl.to(
+      '#HeroSection',
+      {
+        top: '0vh',
+      },
+      'end'
+    )
+
+    tl.to(
+      ['#HeroSection h1', '#HeroSection header'],
+      {
+        opacity: 1,
+        onComplete: () => {
+          lenis?.start()
+        },
+      },
+      'end'
+    )
   })
 
   useEffect(() => {

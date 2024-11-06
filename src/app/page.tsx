@@ -9,6 +9,7 @@ export default function Page() {
       <section style={{ height: '100vh', background: '#14232E' }}>
         Hello 2
       </section>
+      <Separator />
       <section style={{ height: '100vh', background: 'green' }}>
         Hello 2
       </section>
