@@ -124,28 +124,26 @@ export const HeroMain = () => {
   useMainHeroAnimation(isPageLoaded)
 
   return (
-    <>
+    <section id={'HeroSection'} ref={containerRef} className={classes.hero}>
       <ClipPath />
-      <section id={'HeroSection'} ref={containerRef} className={classes.hero}>
-        <div id="hero" className={classes.wrapper}>
-          <Header style={{ position: 'absolute' }} />
-          <div className={classes.container}>
-            <div className={classes.content}>
-              <FullLogo />
-              <h1>{TITLE}</h1>
-              <Scroll style={{ marginBottom: '12px' }} />
-              <div className={classes.vertical} />
-            </div>
-            <div className={classes.gradient} />
-
-            <video className={classes['cover']} autoPlay loop playsInline muted>
-              <source src={VideoBg} type={`video/webm`} />
-              <Image src={BgPicture} alt={'fitness cover'} fill />
-            </video>
+      <div id="hero" className={classes.wrapper}>
+        <Header style={{ position: 'absolute' }} />
+        <div className={classes.container}>
+          <div className={classes.content}>
+            <FullLogo />
+            <h1>{TITLE}</h1>
+            <Scroll style={{ marginBottom: '12px' }} />
+            <div className={classes.vertical} />
           </div>
+          <div className={classes.gradient} />
+
+          <video className={classes['cover']} autoPlay loop playsInline muted>
+            <source src={VideoBg} type={`video/webm`} />
+            <Image src={BgPicture} alt={'fitness cover'} fill />
+          </video>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
 
