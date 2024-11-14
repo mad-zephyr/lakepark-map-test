@@ -34,7 +34,7 @@ export const ReactLenisScroll: FC<PropsWithChildren> = ({ children }) => {
     return () => {
       gsap.ticker.remove(update)
     }
-  })
+  }, [])
 
   return (
     <ReactLenis root options={lenisOptions} ref={lenisRef} autoRaf={false}>
