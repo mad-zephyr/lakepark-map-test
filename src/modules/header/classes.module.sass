@@ -1,66 +1,70 @@
 .header
     display: flex
-    position: absolute
+    position: fixed
     top: 0
+    opacity: 0
+
     padding: 48px 72px
     z-index: 2
-    width: 100dvw
+    width: 100vw
     font-family: var(--font-base)
     align-items: center
     border-bottom: 1px solid #70787b
+    transition: 1.3s display ease
+    pointer-events: none
 
-.wrapper
+.center
+    display: flex
+    margin: 0 auto
+    background: #ffffff15
+    align-items: center
+    padding: 8px 12px
+    border-radius: 36px
+    height: 60px
 
-.nav
+.item
+    position: relative
     display: flex
     align-items: center
-    flex-grow: 1
-    position: inherit
-    left: 50%
-    transform: translateX(-50%)
+    justify-content: center
+    height: 100%
 
-    ul
-        display: flex
-        background: #ffffff15
-        align-items: center
-        justify-content: space-between
+    border-radius: 36px
+    padding: 12px 20px
+    white-space: nowrap
 
-        height: 60px
-        padding: 8px 12px
-        border-radius: 36px
-        gap: 6px
+    color: white
+    cursor: pointer
+    border: 1px solid rgba(#fff, 0)
+    pointer-events: auto
+    transition: 1s all cubic-bezier(0.25, 1, 0.5, 1)
 
-    li
-        position: relative
-        display: flex
-        align-items: center
-        justify-content: center
-        list-style: none
+    &:hover
+        border: 1px solid rgba(#fff, 0.2)
 
-        color: black
-        white-space: nowrap
-        border-radius: 36px
-        padding: 0 24px
-        height: 100%
-        color: white
-        cursor: pointer
-        box-sizing: border-box
-        border: 1px solid rgba(#fff , 0)
-        transition: 1s all cubic-bezier(0.25, 1, 0.5, 1)
+.active
+    color: black
 
-        &:hover
-            border: 1px solid rgba(#fff, 0.2)
+.left
+    display: flex
+    align-items: center
+    justify-content: space-between
+    column-gap: 36px
 
-    .active
-        color: black
+.right
+    display: flex
+    align-items: center
+    white-space: nowrap
+    svg
+        margin-right: 12px
 
-    .active_bg
-        position: absolute
-        left: 0
-        top: 0
-        background: white
+.active_bg
+    position: absolute
+    left: 0
+    top: 0
+    background: white
 
-        width: 100%
-        height: 100%
-        border-radius: 36px
-        z-index: -1
+    width: 100%
+    height: 100%
+    border-radius: 36px
+    z-index: -1

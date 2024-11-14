@@ -1,12 +1,19 @@
-import { FC, useState } from 'react'
-import { motion, MotionStyle } from 'framer-motion'
+import {
+  DetailedHTMLProps,
+  FC,
+  forwardRef,
+  HTMLAttributes,
+  useState,
+} from 'react'
 import cn from 'classnames'
+import { motion } from 'framer-motion'
 
+import PhoneIcon from '@/assets/images/phone.svg'
 import Logo from '@/assets/images/logo.svg'
 
 import classes from './classes.module.sass'
 
-type THeader = { style?: MotionStyle }
+type THeader = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 
 type TNavItem = {
   title: string
@@ -16,17 +23,15 @@ type TNavItem = {
 
 const NavItem: FC<TNavItem> = ({ title, isActive, onClick }) => {
   return (
-    <>
-      <li
-        className={cn({ [classes['active']]: isActive })}
-        onClick={() => onClick(title)}
-      >
-        {title}
-        {isActive ? (
-          <motion.div className={classes['active_bg']} layoutId="underline" />
-        ) : null}
-      </li>
-    </>
+    <div
+      className={cn(classes['item'], { [classes['active']]: isActive })}
+      onClick={() => onClick(title)}
+    >
+      {title}
+      {isActive ? (
+        <motion.div className={classes['active_bg']} layoutId="underline" />
+      ) : null}
+    </div>
   )
 }
 
@@ -39,19 +44,23 @@ const NAV_ITEM = [
   'Контакты',
 ]
 
-export const Header: FC<THeader> = ({ style }) => {
-  const [activeItem, setActiveItem] = useState(0)
+export const Header: FC<THeader> = forwardRef<HTMLElement, THeader>(
+  ({ className, ...props }, ref) => {
+    const [activeItem, setActiveItem] = useState(0)
 
-  const handleSetActive = (itemTitle: string) => {
-    const activeIndex = NAV_ITEM.findIndex((item) => itemTitle === item)
-    setActiveItem(activeIndex)
-  }
-  return (
-    <motion.header className={classes['header']} style={style}>
-      <Logo />
-      Ro
-      <nav className={classes['nav']}>
-        <ul>
+    const handleSetActive = (itemTitle: string) => {
+      const activeIndex = NAV_ITEM.findIndex((item) => itemTitle === item)
+      setActiveItem(activeIndex)
+    }
+
+    return (
+      <header ref={ref} className={cn(classes['header'], className)} {...props}>
+        <div className={classes['left']}>
+          <Logo />
+          Ro
+        </div>
+
+        <div className={classes.center} style={{ boxSizing: 'border-box' }}>
           {NAV_ITEM.map((item, i) => (
             <NavItem
               key={i}
@@ -60,8 +69,12 @@ export const Header: FC<THeader> = ({ style }) => {
               onClick={handleSetActive}
             />
           ))}
-        </ul>
-      </nav>
-    </motion.header>
-  )
-}
+        </div>
+
+        <div className={classes['right']}>{<PhoneIcon />}Отдел продаж</div>
+      </header>
+    )
+  }
+)
+
+Header.displayName = 'Header'

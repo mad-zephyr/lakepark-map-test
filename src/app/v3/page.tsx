@@ -50,7 +50,7 @@ const Page: FC = () => {
           longitude={position.longitude}
           shadows
           orthographic
-        ></Canvas>
+        />
       </Map>
     </>
   )

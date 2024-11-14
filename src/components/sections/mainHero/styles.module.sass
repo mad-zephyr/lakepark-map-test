@@ -1,0 +1,108 @@
+
+.hero
+    position: relative
+    font-family: var(--font-accent)
+    font-weight: 540
+    height: 100vh
+    width: 100vw
+    clip-path: url(#pillClip)
+
+.wrapper
+    position: sticky
+    top: 0
+    margin: 0 auto
+
+.container
+    position: relative
+    width: 100vw
+    height: 100vh
+    left: 0
+    transform-origin: center
+
+    img
+        object-fit: cover
+        z-index: 0
+
+.gradient
+    position: absolute
+    width: 100vw
+    height: 100vh
+    top: 0
+    left: 0
+    z-index: 0
+
+    &::after,  &::before
+        content: ""
+        position: absolute
+        top: 0
+        left: 0
+        width: 100vw
+        height: 100%
+        z-index: 1
+        pointer-events: none
+
+    &::before
+        z-index: 0
+        background: #00000066
+
+    &:after
+        z-index: 1
+        background: linear-gradient(0deg, #14232e 0%, rgba(20, 35, 46, 0) 100%)
+
+.cover
+    width: 100vw
+    height: 100%
+    object-fit: cover
+
+.content
+    display: flex
+    position: absolute
+    z-index: 3
+    width: 70%
+    top: 18rem
+    left: 50%
+    height: 80vh
+    transform: translateX(-50%)
+    flex-direction: column
+    align-items: center
+    z-index: 1
+
+    svg
+        margin-bottom: 60px
+        z-index: 2
+
+    h1
+        font-family: var(--font-accent)
+        font-weight: 200
+        font-size: 55px
+        line-height: 127%
+        text-align: center
+        color: #ffebce
+        z-index: 3
+        max-width: 1140px
+        z-index: 2
+        margin-bottom: 48px
+
+.vertical
+    display: block
+    width: 1px
+    flex-grow: 1
+    max-height: 96px
+    background: #FDFDFE
+    opacity: 0.2
+
+@media only screen and (max-width: 768px)
+    .content
+        top: 25vh
+
+        svg
+            margin-bottom: 60px
+        h1
+            font-family: var(--font-accent)
+            font-weight: 200
+            font-size: 32px
+            line-height: 127%
+            text-align: center
+            color: #ffebce
+            z-index: 3
+            max-width: 1140px

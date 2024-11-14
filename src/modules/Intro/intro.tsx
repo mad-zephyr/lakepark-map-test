@@ -117,7 +117,7 @@ export const IntroWrapper: FC<PropsWithChildren> = ({ children }) => {
   const isPageLoaded = usePageLoaded()
 
   return (
-    <AnimatePresence mode="sync">
+    <AnimatePresence mode="wait">
       <motion.div key={key} className={classes['intro']}>
         <motion.div className={classes['logoWrapper']} {...anim(wrapper)}>
           <motion.svg

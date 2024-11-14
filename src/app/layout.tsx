@@ -3,7 +3,7 @@ import '../assets/styles/globals.css'
 import cn from 'classnames'
 
 import { SanFranciscoPro, UnboundedFont } from '@/assets/fonts/fontConfig'
-import { ContextWrapper } from '@/context/context'
+import { ReactLenisScroll } from '@/context/reactLenisScroll'
 import { IntroWrapper } from '@/modules/Intro/intro'
 
 type TRootLayout = Readonly<{
@@ -16,9 +16,9 @@ export default function RootLayout({ children }: TRootLayout) {
   return (
     <html lang="en">
       <body className={mainClass}>
-        <ContextWrapper>
+        <ReactLenisScroll>
           <IntroWrapper>{children}</IntroWrapper>
-        </ContextWrapper>
+        </ReactLenisScroll>
       </body>
     </html>
   )
